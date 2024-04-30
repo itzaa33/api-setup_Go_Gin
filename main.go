@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"log"
-	"net/http"
 	"os"
 
 	"github.com/gin-contrib/cors"
@@ -11,9 +10,13 @@ import (
 	"github.com/joho/godotenv"
 
 	"main/db"
+
+	routes "main/routes"
 )
 
 func main() {
+	app := gin.Default()
+
 	// load env
 	err := godotenv.Load(".env")
 	if err != nil {
@@ -21,22 +24,19 @@ func main() {
 	}
 
 	// connect db
-	db, err := db.ConnectDB()
+	db, err := db.Init()
 	if err != nil {
 		log.Fatalf("Error connect DB")
 	}
-	db.AutoMigrate()
 
-	app := gin.Default()
+	// set cors
 	config := cors.DefaultConfig()
 	config.AllowOrigins = []string{"*"}
 	app.Use(cors.New(config))
 
-	app.GET("/ping", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "ok",
-		})
-	})
+	// set routes
+	api := app.Group("/api")
+	routes.Set(api, db)
 
 	println("=========================")
 	println(fmt.Sprintf("APP_ENV=%s", os.Getenv("APP_ENV")))
