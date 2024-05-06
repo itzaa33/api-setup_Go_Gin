@@ -1,4 +1,4 @@
-package handlers
+package handler
 
 import "gorm.io/gorm"
 

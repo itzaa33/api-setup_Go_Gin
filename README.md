@@ -1,4 +1,4 @@
-# Api Template
+# Api Template (small service)
 
 The project is template for api `Http Web framework`. Develop using `Go` with `Gin` as framwork for API.
 

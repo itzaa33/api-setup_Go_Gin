@@ -10,11 +10,10 @@ import (
 func Set(routers *gin.RouterGroup, db *gorm.DB) {
 
 	adminRoutes(routers, db)
-	productRoutes(routers, db)
 
 	routers.GET("/ping", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
-			"message": "GOLANG RESTFUL API.2",
+			"message": "GOLANG RESTFUL API",
 		})
 	})
 }
